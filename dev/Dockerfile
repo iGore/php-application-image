@@ -1,5 +1,8 @@
 FROM patricksiemen/php-nginx-symfony:latest
 
+ENV APP_ENV dev
+ENV APP_DEBUG 1
+
 RUN mv -f /usr/local/etc/php/php.ini-development /usr/local/etc/php/php.ini
 
 RUN apt-get -yqq update && apt-get -yqq install wget vim

@@ -13,6 +13,17 @@ All source code has to be located inside `/var/www/app`. For local development y
 mount a local project directory to this directory, when you build up a production image you usually copy the source code
 of the current version into that directory and use the `latest` image tag.
 
+## Quick start
+As developers we strive for performance and a steep learning curve, I got that. So how about a single-line example to
+setup an example container for you so you can test it? I'm assuming you use `/Users/john_doe/Documents/my_symfony_project`
+as a project root directory, but you can change that if it does not fit your needs (spoiler alert: you probably have to).
+```shell script
+docker run -it -p 8080:80 --volume=/Users/john_doe/Documents/my_symfony_project:/var/www/app patricksiemen/php-nginx-symfony:latest-dev
+```
+After the container provisioned itself it should start nginx & php and you can access http://localhost:8080 to view your
+application. If you're curious to view it in production environment, try removing `-dev` from the tag to use the
+`latest` image tag.
+
 ## Container provisioning
 Since we do not want any configuration after the container has been build and started, the image has to be configured to
 provision itself as soon as a container will be created from it. We utilize the docker entrypoint for that, the image
