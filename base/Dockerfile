@@ -27,10 +27,10 @@ CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
 
 # new entrypoint does the container provisioning and starts supervisord on container startup
 COPY provisioners /usr/local/bin/provisioners
-COPY entrypoint_status.sh /usr/local/bin/entrypoint_status.sh
-COPY entrypoint.sh /usr/local/bin/entrypoint.sh
-RUN chmod -R +x /usr/local/bin/provisioners /usr/local/bin/entrypoint.sh /usr/local/bin/entrypoint_status
+COPY entrypoint_status /usr/local/bin/entrypoint_status
+COPY entrypoint /usr/local/bin/entrypoint
+RUN chmod -R +x /usr/local/bin/provisioners /usr/local/bin/entrypoint /usr/local/bin/entrypoint_status
 
-ENTRYPOINT /usr/local/bin/entrypoint.sh
+ENTRYPOINT /usr/local/bin/entrypoint
 
 WORKDIR $PROJECT_ROOT
