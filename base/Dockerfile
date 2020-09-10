@@ -32,5 +32,6 @@ COPY entrypoint /usr/local/bin/entrypoint
 RUN chmod -R +x /usr/local/bin/provisioners /usr/local/bin/entrypoint /usr/local/bin/entrypoint_status
 
 ENTRYPOINT /usr/local/bin/entrypoint
+HEALTHCHECK --start-period=1m --interval=30s --timeout=1s --retry=3 CMD /usr/local/bin/entrypoint_status >> /dev/null
 
 WORKDIR $PROJECT_ROOT
