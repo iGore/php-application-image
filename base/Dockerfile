@@ -1,5 +1,5 @@
 ARG PHP_VERSION=7.4
-FROM php/$MYAPP_IMAGE-latest
+FROM php:${PHP_VERSION}-fpm
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV PROJECT_ROOT /var/www/app
