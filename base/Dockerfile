@@ -1,4 +1,5 @@
-FROM php:7.4-fpm
+ARG PHP_VERSION=7.4
+FROM php/$MYAPP_IMAGE-latest
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV PROJECT_ROOT /var/www/app
@@ -32,6 +33,6 @@ COPY entrypoint /usr/local/bin/entrypoint
 RUN chmod -R +x /usr/local/bin/provisioners /usr/local/bin/entrypoint /usr/local/bin/entrypoint_status
 
 ENTRYPOINT /usr/local/bin/entrypoint
-HEALTHCHECK --start-period=1m --interval=30s --timeout=1s --retry=3 CMD /usr/local/bin/entrypoint_status >> /dev/null
+HEALTHCHECK --start-period=1m --interval=30s --timeout=1s --retries=3 CMD /usr/local/bin/entrypoint_status >> /dev/null
 
 WORKDIR $PROJECT_ROOT
