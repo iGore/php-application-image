@@ -7,11 +7,9 @@ ENV PROJECT_WEBROOT /var/www/app/public
 ENV PROJECT_BINARIES /var/www/app/bin
 ENV APP_ENV prod
 ENV APP_DEBUG 0
+ENV PATH /usr/local/bin:/usr/bin:/bin:$PROJECT_BINARIES
 
 RUN apt-get -yqq update && apt-get -yqq install nginx supervisor && mkdir -p $PROJECT_ROOT && rm -rf /var/www/html
-
-# Let users run symfony executables from everywhere
-RUN echo "export PATH=$PATH:$PROJECT_BINARIES" >> ~/.bashrc
 
 # configure php to run as root and use production config
 RUN sed -i -e 's/user = www-data/user = root/g' /usr/local/etc/php-fpm.d/www.conf \
@@ -27,10 +25,12 @@ COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
 
 # new entrypoint does the container provisioning and starts supervisord on container startup
+COPY stopchecks /usr/local/bin/stopchecks
+COPY stopcheck /usr/local/bin/stopcheck
 COPY provisioners /usr/local/bin/provisioners
-COPY entrypoint_status /usr/local/bin/entrypoint_status
 COPY entrypoint /usr/local/bin/entrypoint
-RUN chmod -R +x /usr/local/bin/provisioners /usr/local/bin/entrypoint /usr/local/bin/entrypoint_status
+COPY entrypoint_status /usr/local/bin/entrypoint_status
+RUN chmod -R +x /usr/local/bin/provisioners /usr/local/bin/stopchecks /usr/local/bin/stopcheck /usr/local/bin/entrypoint /usr/local/bin/entrypoint_status
 
 ENTRYPOINT /usr/local/bin/entrypoint
 HEALTHCHECK --start-period=1m --interval=30s --timeout=1s --retries=3 CMD /usr/local/bin/entrypoint_status >> /dev/null

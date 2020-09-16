@@ -44,4 +44,29 @@ the container provisioning from the entrypoint. To identify if a container is *r
 script: `entrypoint_status` (`/usr/local/bin/entrypoint_status`). After creating a container from the image, you can
 call entrypoint_status (e.g. `docker exec <container-name> entrypoint_status`), and the script will run until the container
 is *truly* ready to exit with exit code 0 (success). If the container should not be able to start properly, it exits with
-code 1 after 5 minutes to prevent your pipelines from getting stuck.  
+code 1 after 5 minutes to prevent your pipelines from getting stuck.
+
+## Stopping containers
+Container contents should be non-persistent, we all agree on that. But: what if something or someone is working on a container
+while someone else (usually the CI/CD runner) tries to remove the container in order to replace it with a newer one? How do
+I know when a container does not want to be stopped until a certain process (e.g. a symfony command that still runs) is done?  
+
+The executable "stopcheck" helps you with that. The Image brings a set of stopchecks with it that are executed by default,
+but you can adapt it to your needs as well. It works kind of like the provisioners, you got the `/usr/local/bin/stopchecks/*.sh`
+scripts that are executed when calling `stopcheck` (full path `/usr/local/bin/stopcheck`). Every script votes with exit codes
+"0 = everything fine, stop the container if you want" or "1 = please wait until something is finished" so the main executable
+can be looped until the exit code is 0 from all scripts and the container can be safely shut down.
+
+Want to try it out? Try `while [ false ]; do stopcheck; echo $?; done` and start a symfony command in another terminal of
+the same container, the exit code will be displayed every second and will change as long as the command runs.
+
+## Executing commands
+Since your application is able to run in as many instances as you want now, why should we still execute our symfony commands
+on the same container or (in case you orchestrate a fleet of containers) even the same physical machine? Huh, but starting
+up a php-fpm as well as a nginx just for executing a single command is a very bad example, so let's use the cli image for
+that. The CLI image does not start any services but provides us a single php executable, so it's up in no time:
+```shell script
+docker run -it --volume=/Users/john_doe/Documents/my_symfony_project:/var/www/app patricksiemen/php-nginx-symfony:cli-latest console
+```
+_Hint: All images in this repository are configured to have the application binaries path in the global path, which lets `console`
+be found through the $PATH, and you don't have to specify the full executable path (`/var/www/app/bin/console`)._
