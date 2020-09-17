@@ -12,3 +12,5 @@ ENV PATH /usr/local/bin:/usr/bin:/bin:$PROJECT_BINARIES
 RUN mkdir -p $PROJECT_ROOT && rm -rf /var/www/html
 
 WORKDIR $PROJECT_ROOT
+
+CMD ["console"]

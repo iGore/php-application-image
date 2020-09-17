@@ -36,3 +36,5 @@ ENTRYPOINT /usr/local/bin/entrypoint
 HEALTHCHECK --start-period=1m --interval=30s --timeout=1s --retries=3 CMD /usr/local/bin/entrypoint_status >> /dev/null
 
 WORKDIR $PROJECT_ROOT
+
+CMD ["bash"]

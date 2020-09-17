@@ -31,17 +31,17 @@ build-cli-images:
 	docker tag patricksiemen/php-nginx-symfony:cli-7.4 patricksiemen/php-nginx-symfony:cli-latest
 
 build-web-images:
-	docker build -t patricksiemen/php-nginx-symfony:web-7.1 --build-arg PHP_VERSION=7.1 base
-	docker build -t patricksiemen/php-nginx-symfony:web-7.2 --build-arg PHP_VERSION=7.2 base
-	docker build -t patricksiemen/php-nginx-symfony:web-7.3 --build-arg PHP_VERSION=7.3 base
-	docker build -t patricksiemen/php-nginx-symfony:web-7.4 --build-arg PHP_VERSION=7.4 base
+	docker build -t patricksiemen/php-nginx-symfony:web-7.1 --build-arg PHP_VERSION=7.1 web
+	docker build -t patricksiemen/php-nginx-symfony:web-7.2 --build-arg PHP_VERSION=7.2 web
+	docker build -t patricksiemen/php-nginx-symfony:web-7.3 --build-arg PHP_VERSION=7.3 web
+	docker build -t patricksiemen/php-nginx-symfony:web-7.4 --build-arg PHP_VERSION=7.4 web
 	docker tag patricksiemen/php-nginx-symfony:web-7.4 patricksiemen/php-nginx-symfony:web-latest
 	docker tag patricksiemen/php-nginx-symfony:web-latest patricksiemen/php-nginx-symfony:latest
 
 build-web-dev-images:
-	docker build -t patricksiemen/php-nginx-symfony:web-7.1-dev --build-arg PHP_VERSION=7.1 dev
-	docker build -t patricksiemen/php-nginx-symfony:web-7.2-dev --build-arg PHP_VERSION=7.2 dev
-	docker build -t patricksiemen/php-nginx-symfony:web-7.3-dev --build-arg PHP_VERSION=7.3 dev
-	docker build -t patricksiemen/php-nginx-symfony:web-7.4-dev --build-arg PHP_VERSION=7.4 dev
+	docker build -t patricksiemen/php-nginx-symfony:web-7.1-dev --build-arg PHP_VERSION=7.1 web-dev
+	docker build -t patricksiemen/php-nginx-symfony:web-7.2-dev --build-arg PHP_VERSION=7.2 web-dev
+	docker build -t patricksiemen/php-nginx-symfony:web-7.3-dev --build-arg PHP_VERSION=7.3 web-dev
+	docker build -t patricksiemen/php-nginx-symfony:web-7.4-dev --build-arg PHP_VERSION=7.4 web-dev
 	docker tag patricksiemen/php-nginx-symfony:web-7.4-dev patricksiemen/php-nginx-symfony:web-latest-dev
 	docker tag patricksiemen/php-nginx-symfony:web-latest-dev patricksiemen/php-nginx-symfony:latest-dev
