@@ -11,6 +11,11 @@ ENV PATH /usr/local/bin:/usr/bin:/bin:$PROJECT_BINARIES
 
 RUN apt-get -yqq update && apt-get -yqq install nginx supervisor && mkdir -p $PROJECT_ROOT && rm -rf /var/www/html
 
+# Install basic php extensions
+RUN docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd \
+    && docker-php-ext-configure mysqli --with-mysqli=mysqlnd \
+    && docker-php-ext-install pdo_mysql
+
 # configure php to run as root and use production config
 RUN sed -i -e 's/user = www-data/user = root/g' /usr/local/etc/php-fpm.d/www.conf \
  && sed -i -e 's/group = www-data/user = root/g' /usr/local/etc/php-fpm.d/www.conf \
