@@ -1,4 +1,6 @@
-FROM patricksiemen/php-nginx-symfony:latest
+ARG PHP_VERSION=8.1
+
+FROM patricksiemen/php-nginx-symfony:web-${PHP_VERSION}
 
 ENV APP_ENV dev
 ENV APP_DEBUG 1
