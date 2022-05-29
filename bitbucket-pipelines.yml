@@ -1,3 +1,4 @@
+# this can not be run on bitbucket pipelines, there has to be a custom runner. File is just for later reference.
 pipelines:
   custom:
     UPDATE-IMAGES:
