@@ -1,0 +1,28 @@
+pipelines:
+  custom:
+    UPDATE-IMAGES:
+      - step:
+          name: CLI images
+          image: patrick-siemen/docker-buildx
+          script:
+            - make cli-images
+          services:
+            - docker
+      - step:
+          name: WEB images
+          image: patrick-siemen/docker-buildx
+          script:
+            - make web-images
+          services:
+            - docker
+      - step:
+          name: WEB-DEV images
+          image: patrick-siemen/docker-buildx
+          script:
+            - make web-dev-images
+          services:
+            - docker
+definitions:
+  services:
+    docker:
+      image: docker:dind
