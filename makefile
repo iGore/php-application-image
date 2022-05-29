@@ -1,4 +1,5 @@
 images: cli-images web-images web-dev-images docker-buildx-image
+	docker buildx prune --all --force
 
 cli-images:
 	docker buildx build --push --platform linux/arm/v7,linux/arm64/v8,linux/amd64 --tag patricksiemen/php-nginx-symfony:cli-7.1 --build-arg PHP_VERSION=7.1 cli
