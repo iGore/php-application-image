@@ -4,22 +4,25 @@ pipelines:
     UPDATE-IMAGES:
       - step:
           name: CLI images
-          image: patrick-siemen/docker-buildx
+          image: ezkrg/buildx
           script:
+            - apk add --no-cache make
             - make cli-images
           services:
             - docker
       - step:
           name: WEB images
-          image: patrick-siemen/docker-buildx
+          image: ezkrg/buildx
           script:
+            - apk add --no-cache make
             - make web-images
           services:
             - docker
       - step:
           name: WEB-DEV images
-          image: patrick-siemen/docker-buildx
+          image: ezkrg/buildx
           script:
+            - apk add --no-cache make
             - make web-dev-images
           services:
             - docker

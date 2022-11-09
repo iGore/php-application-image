@@ -1,4 +1,4 @@
-images: cli-images web-images web-dev-images docker-buildx-image
+images: cli-images web-images web-dev-images
 	docker buildx prune --all --force
 
 cli-images:
@@ -27,6 +27,3 @@ web-dev-images:
 	docker buildx build --push --platform linux/arm/v7,linux/arm64/v8,linux/amd64 --tag patricksiemen/php-nginx-symfony:web-8.0-dev --build-arg PHP_VERSION=8.0 web-dev
 	docker buildx build --push --platform linux/arm/v7,linux/arm64/v8,linux/amd64 --tag patricksiemen/php-nginx-symfony:web-8.1-dev --build-arg PHP_VERSION=8.1 web-dev
 	docker buildx build --push --platform linux/arm/v7,linux/arm64/v8,linux/amd64 --tag patricksiemen/php-nginx-symfony:web-8.2-dev --tag patricksiemen/php-nginx-symfony:web-8-dev --tag patricksiemen/php-nginx-symfony:web-latest-dev --build-arg PHP_VERSION=8.2 web-dev
-
-docker-buildx-image:
-	docker buildx build --push --platform linux/arm/v7,linux/arm64/v8,linux/amd64 --tag patricksiemen/docker-buildx docker-buildx
