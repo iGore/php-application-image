@@ -11,6 +11,10 @@ ENV PATH /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$PROJECT_B
 
 RUN apt-get -yqq update && apt-get -yqq install nginx supervisor && mkdir -p $PROJECT_ROOT && rm -rf /var/www/html
 
+RUN apt-get -yqq update && apt-get -yqq install git
+
+COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
+
 # Install basic php extensions
 RUN docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd \
     && docker-php-ext-configure mysqli --with-mysqli=mysqlnd \
