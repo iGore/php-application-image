@@ -1,10 +1,8 @@
 name: ci
-
 on:
-  push:
-    branches:
-      - 'main'
-
+  on:
+    schedule:
+      - cron: "0 2 * * *" # every day at 2am
 jobs:
   docker:
     strategy:
@@ -32,19 +30,12 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: cli
-          build-args: "PHP_VERSION=7.1"
-          platforms: linux/amd64,linux/arm64
-          tags: patricksiemen/php-nginx-symfony:cli-7.1
-          push: true
-      -
-        name: Build and push
-        uses: docker/build-push-action@v3
-        with:
-          context: cli
           build-args: "PHP_VERSION=${{ matrix.php_version }}"
           platforms: linux/amd64,linux/arm64
           tags: patricksiemen/php-nginx-symfony:cli-${{ matrix.php_version }}
           push: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
       -
         name: Build and push
         uses: docker/build-push-action@v3
@@ -54,6 +45,8 @@ jobs:
           platforms: linux/amd64,linux/arm64
           tags: patricksiemen/php-nginx-symfony:web-${{ matrix.php_version }}
           push: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
       -
         name: Build and push
         uses: docker/build-push-action@v3
@@ -63,3 +56,5 @@ jobs:
           platforms: linux/amd64,linux/arm64
           tags: patricksiemen/php-nginx-symfony:web-${{ matrix.php_version }}-dev
           push: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
