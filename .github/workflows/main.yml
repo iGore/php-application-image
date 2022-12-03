@@ -30,5 +30,6 @@ jobs:
         with:
           context: cli
           build-args: "PHP_VERSION=7.1"
-          push: true
+          platforms: linux/amd64,linux/arm64
           tags: patricksiemen/php-nginx-symfony:cli-7.1
+          push: true
