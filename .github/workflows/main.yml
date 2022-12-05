@@ -4,7 +4,7 @@ on:
     schedule:
       - cron: "0 2 * * *" # every day at 2am
 jobs:
-  docker:
+  update-image:
     strategy:
       matrix:
         php_version: [ "7.2", "7.3", "7.4", "8.0", "8.1" ]
@@ -58,3 +58,5 @@ jobs:
           push: true
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+      # todo implement tests: https://github.com/siemendev/php-application-image/issues/2
