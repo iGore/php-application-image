@@ -1,8 +1,7 @@
 name: ci
 on:
-  on:
-    schedule:
-      - cron: "0 2 * * *" # every day at 2am
+  schedule:
+    - cron: "0 2 * * *" # every day at 2am
 jobs:
   update-image:
     strategy:
