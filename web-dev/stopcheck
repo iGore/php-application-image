@@ -1,0 +1,10 @@
+#!/bin/bash
+for f in /usr/local/bin/stopchecks/*.sh; do
+  bash "$f" -H
+  if [ $? -gt "0" ]; then
+    echo "$f prevents container from stopping"
+    exit 1
+  fi
+  echo "$f allows stopping container"
+done
+exit 0

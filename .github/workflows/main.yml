@@ -9,6 +9,14 @@ jobs:
       matrix:
         fail-fast: false
         php_version: [ "7.2", "7.3", "7.4", "8.0", "8.1", "8.2" ]
+        tag: [ "cli", "web", "web-dev" ]
+        exclude:
+          - php_version: 7.2
+            tag: web-dev
+          - php_version: 7.3
+            tag: web-dev
+          - php_version: 7.4
+            tag: web-dev
     runs-on: ubuntu-latest
     steps:
       -
@@ -32,32 +40,10 @@ jobs:
         name: Build and push
         uses: docker/build-push-action@v3
         with:
-          context: cli
+          context: ${{ matrix.tag }}
           build-args: "PHP_VERSION=${{ matrix.php_version }}"
           platforms: linux/amd64,linux/arm64
-          tags: patricksiemen/php-nginx-symfony:cli-${{ matrix.php_version }}
-          push: true
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-      -
-        name: Build and push
-        uses: docker/build-push-action@v3
-        with:
-          context: web
-          build-args: "PHP_VERSION=${{ matrix.php_version }}"
-          platforms: linux/amd64,linux/arm64
-          tags: patricksiemen/php-nginx-symfony:web-${{ matrix.php_version }}
-          push: true
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-      -
-        name: Build and push
-        uses: docker/build-push-action@v3
-        with:
-          context: web-dev
-          build-args: "PHP_VERSION=${{ matrix.php_version }}"
-          platforms: linux/amd64,linux/arm64
-          tags: patricksiemen/php-nginx-symfony:web-${{ matrix.php_version }}-dev
+          tags: patricksiemen/php-nginx-symfony:${{ matrix.tag }}-${{ matrix.php_version }}
           push: true
           cache-from: type=gha
           cache-to: type=gha,mode=max
