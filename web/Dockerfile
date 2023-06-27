@@ -9,6 +9,8 @@ ENV APP_ENV prod
 ENV APP_DEBUG 0
 ENV PATH /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$PROJECT_BINARIES
 
+WORKDIR $PROJECT_ROOT
+
 RUN apt-get -yqq update && apt-get -yqq install git \ 
     nginx \
     supervisor && mkdir -p $PROJECT_ROOT && rm -rf /var/www/html
@@ -43,7 +45,5 @@ RUN chmod -R +x /usr/local/bin/provisioners /usr/local/bin/stopchecks /usr/local
 
 ENTRYPOINT /usr/local/bin/entrypoint
 HEALTHCHECK --start-period=1m --interval=30s --timeout=1s --retries=3 CMD /usr/local/bin/entrypoint_status >> /dev/null
-
-WORKDIR $PROJECT_ROOT
 
 CMD ["bash"]
